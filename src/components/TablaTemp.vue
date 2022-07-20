@@ -2,24 +2,23 @@
   <div class="row justify--center">
     <div class="flex md6 lg4">
       <va-card stripe stripe-color="success">
+        <va-card-title>Medicion de Temperatura por Dia</va-card-title>
         <div class="va-table-responsive row justify--center">
           <table class="va-table va-table--hoverable">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Country</th>
-                <th>Status</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miercoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="user in users" :key="user.id">
-                <td>{{ user.fullname }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.country }}</td>
-                <td>
-                  <va-badge :text="user.status" :color="user.status" />
-                </td>
+              <tr v-for="reg in registro" :key="reg.id">
+                <td>{{ reg.fecha }}</td>
+                <td>{{ reg.temp }}</td>
+                <td>{{ reg.hum }}</td>
               </tr>
             </tbody>
           </table>
@@ -32,13 +31,28 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import { users } from "../Strorage/Users.json";
-
 export default defineComponent({
   data() {
     return {
-      users: users.slice(0, 4),
+      registro: [],
     };
+  },
+  created: function () {
+    this.consulta();
+  },
+  methods: {
+    consulta() {
+      fetch("http/phphphphph")
+        .then((res) => res.json())
+        .then((json) => {
+          console.log(json);
+          this.registro = [];
+          if (typeof json[0].success === "undefined") {
+            this.registro = json;
+          }
+        })
+        .catch(console.log);
+    },
   },
 });
 </script>

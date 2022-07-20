@@ -2,7 +2,7 @@
   <div class="center">
     <h1>
       BIENVENIDO ! <br />
-      <va-badge text="En linea" color="{{msg}}" />
+      <va-badge text="EN LINEA" color="green" />
     </h1>
     <div class="my-5">
       <va-divider />

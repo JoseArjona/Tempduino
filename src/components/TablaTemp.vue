@@ -7,11 +7,11 @@
           <table class="va-table va-table--hoverable">
             <thead>
               <tr>
-                <th>Lunes</th>
-                <th>Martes</th>
-                <th>Miercoles</th>
-                <th>Jueves</th>
-                <th>Viernes</th>
+                <th>Fecha</th>
+                <th>Temperatura</th>
+                <th>Humedad</th>
+                <!--  <th>Jueves</th>
+                <th>Viernes</th> -->
               </tr>
             </thead>
             <tbody>
@@ -42,7 +42,8 @@ export default defineComponent({
   },
   methods: {
     consulta() {
-      fetch("http/phphphphph")
+      let msg ;
+      fetch("http://localhost/Servidor/")
         .then((res) => res.json())
         .then((json) => {
           console.log(json);
@@ -50,8 +51,14 @@ export default defineComponent({
           if (typeof json[0].success === "undefined") {
             this.registro = json;
           }
+          msg="EN LINEA";
+          return msg;
         })
-        .catch(console.log);
+        .catch((err) => {
+          msg = "Desconectado";
+          console.log(err);
+          return msg;
+        });
     },
   },
 });

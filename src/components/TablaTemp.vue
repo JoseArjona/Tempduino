@@ -2,7 +2,12 @@
   <div class="row justify--center">
     <div class="flex md6 lg4">
       <va-card stripe stripe-color="success">
-        <va-card-title>Medicion de Temperatura por Dia</va-card-title>
+        <va-card-title>
+          <h3>
+            Medicion de Temperatura ~ Son las : {{ hora }}:{{ minuto }} :
+            {{ seconds }}
+          </h3>
+        </va-card-title>
         <div class="va-table-responsive row justify--center">
           <table class="va-table va-table--hoverable">
             <thead>
@@ -10,8 +15,6 @@
                 <th>Fecha</th>
                 <th>Temperatura</th>
                 <th>Humedad</th>
-                <!--  <th>Jueves</th>
-                <th>Viernes</th> -->
               </tr>
             </thead>
             <tbody>
@@ -29,43 +32,67 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+// definimos la url de la api
+const API_URL = "http://localhost/Servidor/";
 
-export default defineComponent({
-  data() {
-    return {
-      registro: [],
-    };
-  },
-  created: function () {
+export default {
+  data: () => ({
+    // data es una funcion que retorna los datos
+    registro: [],
+    hora: 0,
+    minuto: 0,
+    seconds: 0,
+  }),
+  /* created() {
     this.consulta();
-  },
+  }, */
   methods: {
-    consulta() {
-      let msg ;
-      fetch("http://localhost/Servidor/")
-        .then((res) => res.json())
-        .then((json) => {
-          console.log(json);
-          this.registro = [];
-          if (typeof json[0].success === "undefined") {
-            this.registro = json;
-          }
-          msg="EN LINEA";
-          return msg;
-        })
-        .catch((err) => {
-          msg = "Desconectado";
-          console.log(err);
-          return msg;
-        });
+    async consulta() {
+      // consulta la base de datos
+      setInterval(() => {
+        // establecemos un intervalo de tiempo para que se ejecute cada segundo
+        fetch(API_URL) // hacemos una peticion a la API
+          .then((res) => res.json())
+          .then((json) => {
+            console.log(json); // mostramos el resultado en consola
+            this.registro = []; // limpiamos el array
+            if (typeof json[0].success === "undefined") {
+              // si no hay error
+              this.registro = json; // guardamos los datos en el array
+            }
+          })
+          .catch((err) => {
+            // si hay error
+            console.log(err); // mostramos el error en consola
+          });
+      }, 1000); // cada segundo
+    },
+    // funcion para obtener la hora actual
+    setTime() {
+      setInterval(() => {
+        // establecemos un intervalo de tiempo para que se ejecute cada segundo
+        const date = new Date(); // obtenemos la fecha actual
+        this.hora = date.getHours(); // obtenemos la hora
+        this.minuto = this.checkSingleDigit(date.getMinutes()); // obtenemos los minutos
+        this.seconds = this.checkSingleDigit(date.getSeconds()); // obtenemos los segundos
+      }, 1000);
+    },
+    checkSingleDigit(digit) {
+      // funcion para obtener un digito con un solo digito
+      return ("0" + digit).slice(-2);
     },
   },
-});
+  mounted() {
+    // mounted es una funcion que se ejecuta cuando el componente se carga
+    this.consulta();
+    this.setTime();
+  },
+};
 </script>
 
 <style scoped>
 .va-table-responsive {
+  /* estilos para la tabla */
   overflow: auto;
 }
 

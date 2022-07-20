@@ -2,13 +2,15 @@
   <div class="center">
     <h1>
       BIENVENIDO ! <br />
-      <va-badge text="EN LINEA" color="green" />
+      <va-badge text="Hola de nuevo" color="green" />
     </h1>
+
     <div class="my-5">
       <va-divider />
     </div>
   </div>
 </template>
+
 <style>
 h1 {
   text-align: center;

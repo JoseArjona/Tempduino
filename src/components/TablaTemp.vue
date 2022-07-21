@@ -33,7 +33,7 @@
 
 <script lang="ts">
 // definimos la url de la api
-const API_URL = "http://localhost/Servidor/";
+const API_URL = "https://tempduino.000webhostapp.com/server.php";
 
 export default {
   data: () => ({

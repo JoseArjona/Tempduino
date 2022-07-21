@@ -13,7 +13,7 @@ app.use(
       colors: {
         primary: "#5FD068",
         secondary: "#4B8673",
-        custom: "#F6FBF4",
+        custom: "#ffff",
       },
     },
   })
